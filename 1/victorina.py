@@ -1,7 +1,5 @@
 from random import choice
 
-from simulator_mats import points
-
 student = input('Представьтесь, пожалуйста: ')
 try:
     level = int(input('Выберите уровень сложности 1 - 5: '))
