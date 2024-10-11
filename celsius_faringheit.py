@@ -15,5 +15,5 @@ class TemperatureConverter:
 
 
 print(TemperatureConverter.fahrenheit(25))
-print(TemperatureConverter.celsius(77)) 
+print(TemperatureConverter.celsius(77))
 print(TemperatureConverter.get_count())
