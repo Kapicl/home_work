@@ -1,6 +1,7 @@
 from hitbox import Hitbox
 from tkinter import *
 from random import randint
+import world
 
 class Tank:
     __count = 0
@@ -120,6 +121,7 @@ class Tank:
             self.__y += self.__dy
             self.__fuel -=self.__speed
             self.__update_hitbox()
+            self.__check_out_of_world()
             self.__repaint()
 
 
@@ -187,5 +189,14 @@ class Tank:
         self.__repaint()
         self.__dx = 0
         self.__dy = 0
+
+    def __check_out_of_world(self):
+        if self.__hitbox.left < 0 or \
+                self.__hitbox.top < 0 or \
+                self.__hitbox.right >= world.WIDTH or \
+                self.__hitbox.bottom >= world.HEIGHT:
+            self.__undo_move()
+            if self.__bot:
+                self.__AI_change_opientation()
 
 
