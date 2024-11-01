@@ -1,6 +1,9 @@
 from hitbox import Hitbox
 from tkinter import *
+<<<<<<< Updated upstream
 from random import randint
+=======
+>>>>>>> Stashed changes
 import world
 
 class Tank:
@@ -173,6 +176,15 @@ class Tank:
 
     def get_sise(self):
         return self.__skin_up.width()
+
+    def __check_out_of_world(self):
+        if self.__hitbox.left < 0 or \
+                self.__hitbox.top < 0 or \
+                self.__hitbox.right >= world.WIDTH or \
+                self.__hitbox.bottom >= world.HEIGHT:
+            self.__undo_move()
+            if self.__bot:
+                self.__AI_change_orientation()
 
 
     def __str__(self):
