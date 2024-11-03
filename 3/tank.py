@@ -1,9 +1,6 @@
 from hitbox import Hitbox
 from tkinter import *
-<<<<<<< Updated upstream
 from random import randint
-=======
->>>>>>> Stashed changes
 import world
 
 class Tank:
@@ -112,7 +109,10 @@ class Tank:
         self.__canvas.itemconfig(self.__id, image = self.__skin_right)
         # self.__repaint()
 
-
+    def stop(self):
+        self.__vx = 0
+        self.__vy = 0
+        self.__undo_move()
 
     def update(self):
         if self.__fuel > self.__speed:
@@ -132,7 +132,7 @@ class Tank:
         self.__id = self.__canvas.create_image(self.__x, self.__y, image = self.__skin_up, anchor ='nw')
 
     def __repaint(self):
-        self.__canvas.moveto(self.__id, x = self.__x, y = self.__y)
+        self.__canvas.moveto(self.__id, x = world.get_screen_x(self.__x), y = world.get_screen_y(self.__y))
 
     def __update_hitbox(self):
         self.__hitbox.moveto(self.__x, self.__y)
