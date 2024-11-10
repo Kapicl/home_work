@@ -186,6 +186,12 @@ class Tank:
             if self.__bot:
                 self.__AI_change_orientation()
 
+    def __del__(self):
+        print(f'Танк удален')
+        try:
+            self.__canvas.delete(self.__id)
+        except Exception:
+            pass
 
     def __str__(self):
         return (f'координаты: x = {self.__x}, y = {self.__y}, модель: {self.__model}, '
