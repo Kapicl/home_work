@@ -56,8 +56,15 @@ def set_camera_xy(x, y):
     if y > get_height() - SCREEN_HEIGHT:
         y = get_height() - SCREEN_HEIGHT
 
+    update_all = False
+    if abs(_camera_x - x) >= BLOCK_SIZE or abs(_camera_y-y) >= BLOCK_SIZE:
+        update_all = True
+
     _camera_x = x
     _camera_y = y
+
+    if update_all:
+        update_map(all=True)
 
 def move_camera(delta_x, delta_y):
     set_camera_xy(_camera_x + delta_x, _camera_y + delta_y)
@@ -89,21 +96,16 @@ def create_map(rows = 20, cols = 20):
         _map.append(row)
 
 # 1 Ограничить область карты
-def update_map():
-
-    # first_row = 0
-    # last_row = get_rows()-1
-    # first_col = 0
-    # last_col = get_cols()-1
-    # print((_camera_x,_camera_y))
-
-# 3 подставим  пограничные строки и колонки, которые видит камера !!!!!ЭТО НЕ ДЕЛАТЬ !!!!
-
+def update_map(all=False):
     first_row = get_row(_camera_y)
     last_row = get_row(_camera_y + SCREEN_HEIGHT-1)
     first_col = get_col(_camera_x)
     last_col = get_col(_camera_x + SCREEN_WIDTH-1)
-    print((first_row, last_row, first_col, last_col))
+    if all:
+        first_row = 0
+        first_col = 0
+        last_row = get_rows()-1
+        last_col = get_cols()-1
 
     for i in range(first_row, last_row+1):
         for j in range(first_col, last_col+1):

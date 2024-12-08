@@ -68,17 +68,16 @@ class Hitbox:
 
                 #5 еще раз перепишем - заполним словарь значениями - Названием блока, ряду, колонке по ключам block, row, col
     def check_map_collision(self, details):
+        collision = False
         for point in self.__get_corner_points():
             row = world.get_row(point['y'])
             col = world.get_col(point['x'])
             block = world.get_block(row, col)
 
             if block in self.__black_list:
-                details['block'] = block
-                details['row'] = row
-                details['col'] = col
-                return True
-        return False
+                details[block] = {'row': row, 'col': col}
+                collision = True
+        return collision
 
 
 
