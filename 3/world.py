@@ -25,14 +25,25 @@ _map = []
 #5
 AIR = 'a'
 
-#4
-def get_block(row, col):
+def load_map(file_name):
+    global _map
+    _map = []
+    with open(file_name) as f:
+        i = 0
+        for line in f:
+            blocks = line.strip()
+            row = []
+            for j in range(len(blocks)):
+                cell = _Cell(_canvas, blocks[j], j * BLOCK_SIZE, i * BLOCK_SIZE)
+                row.append(cell)
+            _map.append(row)
+            i+=1
 
-    #6
-    if row < 0 or col < 0 or row >= get_rows() or col >= get_cols():
-        return AIR
-    else:
+
+def get_block(row, col):
+    if inside_of_map(row, col):
         return _map[row][col].get_block()
+    return AIR
 
 
 def get_width():
@@ -78,7 +89,8 @@ def get_screen_y(world_Y):
 def initialize(canv):
     global _canvas
     _canvas = canv
-    create_map(25,25)
+    #create_map(25,25)
+    load_map('../map/3.tmap')
 def create_map(rows = 20, cols = 20):
     global _map
     _map = []
@@ -135,10 +147,18 @@ def get_cols():
 
 
 def update_cell(row, col):
-    if row < 0 or col < 0 or row >= get_rows() or col >= get_cols():
-        return
-    _map[row][col].update()
+    if inside_of_map(row, col):
+        _map[row][col].update()
 
+def destroy(row, col):
+    if row < 1 or col < 1 or row >= get_rows()-1 or col >= get_cols()-1:
+        return False
+    return _map[row][col].destroy()
+
+def inside_of_map(row, col):
+    if row < 0 or col < 0 or row >= get_rows() or col >= get_cols():
+        return False
+    return True
 
 class _Cell:
     def __init__(self, canvas, block,x,y):
@@ -153,19 +173,43 @@ class _Cell:
         self.__y = y
         self.__create_element(block)
 
+    def set_block(self, block):
+        if self.__block == block:
+            return
+        elif block == GROUND:
+            self.__delete_element()
+        elif self.__block == GROUND:
+            self.__create_element(block)
+        else:
+            self.itenconfing(self.__id, image=texture.get(block))
+        self.__block = block
+
     def __create_element(self, block):
         if block != GROUND:
-
-            # 7 ячейку теперь можно отрисовывать в экранных координатах
             self.__id = self.__canvas.create_image(self.__screen_x, self.__screen_y,
                                                    image=texture.get(block),
                                                    anchor=NW)
+
+    def __delete_element(self):
+        try:
+            self.__canvas.delete(self.__id)
+        except:
+            pass
+
+    def __del__(self):
+        self.__delete_element()
 
     def __del__(self):
         try:
             self.__canvas.delete(self.__id)
         except:
             pass
+
+    def destroy(self):
+        if self.get_block() == BRICK:
+            self.set_block(GROUND)
+            return True
+        return False
 
     def get_block(self):
         return self.__block
