@@ -69,6 +69,7 @@ def looad_textures():
     texture.load(world.BRICK, '../img/brick.png')
     texture.load(world.WATER, '../img/water.png')
     texture.load(world.CONCRETE, '../img/wall.png')
+    texture.load(world.MISSLE, '../img/bonus.png')
 
 
 

@@ -10,6 +10,7 @@ GROUND = 'g'
 WATER = 'w'
 CONCRETE = 'c'
 BRICK = 'b'
+MISSLE = 'm'
 BLOCK_SIZE = 64
 
 _camera_x = 0
@@ -160,6 +161,11 @@ def inside_of_map(row, col):
         return False
     return True
 
+def take(row, col):
+    if _inside_of_map(row, col):
+        return _map[row][col].take()
+    return AIR
+
 class _Cell:
     def __init__(self, canvas, block,x,y):
         self.__canvas = canvas
@@ -219,6 +225,14 @@ class _Cell:
             return
         screen_x = get_screen_x(self.__x)
         screen_y = get_screen_y(self.__y)
+
+    def take(self):
+        block = self.get_block()
+        if block == MISSLE:
+            self.set_block(GROUND)
+            return block
+        else:
+            return AIR
 
  # 6 Если координаты ячейки в видимой области не изменялись, то двигать ячей ку нет смысла
         if self.__screen_x == screen_x and self.__screen_y == screen_y:

@@ -48,29 +48,29 @@ class Tank:
     def __set_water_speed(self):
         self.__speed = self.__water_speed
 
-
+    def __on_map_collision(self, details):
+        if world.WATER in details and len(details) == 1:
+            self.__set_water_speed()
+        elif world.MISSLE in details:
+            pos = details[world.MISSLE]
+            if world.take(pos['row'], pos['col'])!= world.AIR:
+                self.__take_ammo()
+        else:
+            self.__undo_move()
+            if self.__bot:
+                self.__AI_change_orientation()
 
     def __check_map_collision(self):
-        # result = self.__hitbox.check_map_collision()
-        # if result:
-        #     self.__undo_move()
-        #     if self.__bot:
-        #         self.__AI_change_orientation()
-
-    # 6
         details = {}
         self.__set_usual_speed()
         result = self.__hitbox.check_map_collision(details)
         if result:
-            if world.WATER in details and len(details) == 1:
-                self.__set_water_speed()
-            else:
-                self.__undo_move()
-                if self.__bot:
-                    self.__AI_change_orientation()
+            self.__on_map_collision(details)
 
-
-
+    def __take_ammo(self):
+        self.__ammo += 10
+        if self.__ammo > 100:
+            self.__ammo = 100
 
     def set_target(self, target):
         self.__target = target

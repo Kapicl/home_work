@@ -12,7 +12,7 @@ class Hitbox:
 
         #3
         self.__black_list = [world.CONCRETE,
-                             world.BRICK, world.WATER]
+                             world.BRICK, world.WATER, world.MISSLE]
 
 
 
