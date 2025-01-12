@@ -90,8 +90,8 @@ def get_screen_y(world_Y):
 def initialize(canv):
     global _canvas
     _canvas = canv
-    #create_map(25,25)
-    load_map('../map/3.tmap')
+    create_map(25,25)
+    #load_map('../map/1.tmap')
 def create_map(rows = 20, cols = 20):
     global _map
     _map = []
@@ -102,7 +102,7 @@ def create_map(rows = 20, cols = 20):
             if i ==0 or j ==0 or i == rows-1 or j == cols-1:
                 block = CONCRETE
             elif randint(1,100) <= 15:
-                block = choice([BRICK, WATER, CONCRETE])
+                block = choice([BRICK, WATER, CONCRETE, MISSLE])
 
             cell = _Cell(_canvas, block, BLOCK_SIZE * j, BLOCK_SIZE * i)
             row.append(cell)
@@ -162,7 +162,7 @@ def inside_of_map(row, col):
     return True
 
 def take(row, col):
-    if _inside_of_map(row, col):
+    if inside_of_map(row, col):
         return _map[row][col].take()
     return AIR
 
