@@ -91,7 +91,7 @@ def initialize(canv):
     global _canvas
     _canvas = canv
     create_map(25,25)
-    #load_map('../map/1.tmap')
+    load_map('../map/1.tmap')
 def create_map(rows = 20, cols = 20):
     global _map
     _map = []

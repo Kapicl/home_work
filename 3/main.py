@@ -2,7 +2,7 @@
 
 from tank import Tank
 from tkinter import*
-
+import units
 import world
 import tanks_collection
 import texture
@@ -61,18 +61,20 @@ def key_press(event):
 
 def looad_textures():
 
-    texture.load('tank_up', '../img/tankT34_up.png')
-    texture.load('tank_down', '../img/tankT34_down.png')
-    texture.load('tank_left', '../img/tankT34_left.png')
-    texture.load('tank_right', '../img/tankT34_right.png')
+    texture.load('tank_up', '../img/tank_up.png')
+    texture.load('tank_down', '../img/tank_down.png')
+    texture.load('tank_left', '../img/tank_left.png')
+    texture.load('tank_right', '../img/tank_right.png')
+
+    texture.load('tank_up_player', '../img/tank_up_player.png')
+    texture.load('tank_down_player', '../img/tank_down_player.png')
+    texture.load('tank_left_player', '../img/tank_left_player.png')
+    texture.load('tank_right_player', '../img/tank_right_player.png')
 
     texture.load(world.BRICK, '../img/brick.png')
     texture.load(world.WATER, '../img/water.png')
     texture.load(world.CONCRETE, '../img/wall.png')
     texture.load(world.MISSLE, '../img/bonus.png')
-
-
-
 
 
 w = Tk()
@@ -90,7 +92,6 @@ world.initialize(canv)
 
 
 tanks_collection.initialize(canv)
-
 
 
 w.bind('<KeyPress>', key_press)
