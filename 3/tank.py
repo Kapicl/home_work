@@ -33,14 +33,19 @@ class Tank:
             self.__x = 0
         if self.__y < 0:
             self.__y = 0
-
         self.__usual_speed = speed
         self.__water_speed = speed / 2
-
         self.__create()
         self.right()
 
-        print(self)
+        # print(self)
+
+#5
+    def __take_ammo(self):
+        self.__ammo += 10
+        if self.__ammo > 100:
+            self.__ammo = 100
+
 
     def __set_usual_speed(self):
         self.__speed = self.__usual_speed
@@ -48,9 +53,25 @@ class Tank:
     def __set_water_speed(self):
         self.__speed = self.__water_speed
 
+
+    def __check_map_collision(self):
+        details = {}
+        self.__set_usual_speed()
+        result = self.__hitbox.check_map_collision(details)
+        if result:
+            self.__on_map_collision(details)
+
     def __on_map_collision(self, details):
         if world.WATER in details and len(details) == 1:
             self.__set_water_speed()
+        # if world.BRICK in details:
+        #     pos = details[world.BRICK]
+        #     world.destroy(pos['row'], pos['col'])
+        # if world.CONCRETE in details:
+        #     self.__undo_move()
+        #     if self.__bot:
+        #         self.__AI_change_orientation()
+
         elif world.MISSLE in details:
             pos = details[world.MISSLE]
             if world.take(pos['row'], pos['col'])!= world.AIR:
@@ -60,17 +81,6 @@ class Tank:
             if self.__bot:
                 self.__AI_change_orientation()
 
-    def __check_map_collision(self):
-        details = {}
-        self.__set_usual_speed()
-        result = self.__hitbox.check_map_collision(details)
-        if result:
-            self.__on_map_collision(details)
-
-    def __take_ammo(self):
-        self.__ammo += 10
-        if self.__ammo > 100:
-            self.__ammo = 100
 
     def set_target(self, target):
         self.__target = target
@@ -110,7 +120,6 @@ class Tank:
             self.__ammo -= 1
             print('стреляю')
 
-
     def forvard(self):
         self.__vx = 0
         self.__vy = -1
@@ -146,13 +155,9 @@ class Tank:
             self.__x += self.__dx
             self.__y += self.__dy
             self.__fuel -=self.__speed
-
             self.__update_hitbox()
             self.__chek_out_of_world()
-
-            #9
             self.__check_map_collision()
-
             self.__repaint()
 
 
