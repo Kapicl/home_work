@@ -4,13 +4,13 @@ import  texture
 from tkinter import NW
 from  random import randint, choice
 
-
-
 GROUND = 'g'
 WATER = 'w'
 CONCRETE = 'c'
 BRICK = 'b'
-MISSLE = 'm'
+
+MISSILE = 'm'
+
 BLOCK_SIZE = 64
 
 _camera_x = 0
@@ -23,8 +23,9 @@ HEIGHT = SCREEN_HEIGHT * 4
 
 _canvas = None
 _map = []
-#5
+
 AIR = 'a'
+
 
 def load_map(file_name):
     global _map
@@ -41,20 +42,12 @@ def load_map(file_name):
             i+=1
 
 
-def get_block(row, col):
-    if inside_of_map(row, col):
-        return _map[row][col].get_block()
-    return AIR
-
-
 def get_width():
     return get_cols() * BLOCK_SIZE
+
+
 def get_height():
     return get_rows() * BLOCK_SIZE
-
-
-
-
 
 
 def set_camera_xy(x, y):
@@ -69,7 +62,7 @@ def set_camera_xy(x, y):
         y = get_height() - SCREEN_HEIGHT
 
     update_all = False
-    if abs(_camera_x - x) >= BLOCK_SIZE or abs(_camera_y-y) >= BLOCK_SIZE:
+    if abs(_camera_x - x) >= BLOCK_SIZE or abs (_camera_y-y) >= BLOCK_SIZE:
         update_all = True
 
     _camera_x = x
@@ -78,20 +71,32 @@ def set_camera_xy(x, y):
     if update_all:
         update_map(all=True)
 
+
 def move_camera(delta_x, delta_y):
     set_camera_xy(_camera_x + delta_x, _camera_y + delta_y)
+
 
 def get_screen_x(world_X):  # перевод в экранные координаты
     return world_X - _camera_x
 
+
 def get_screen_y(world_Y):
     return world_Y - _camera_y
+
 
 def initialize(canv):
     global _canvas
     _canvas = canv
-    #create_map(25,25)
-    load_map('../map/3.tmap')
+
+    # create_map(25,25)
+
+
+    # load_map('../map/1.tmap')
+    load_map('../map/2.tmap')
+    #load_map('../map/3.tmap')
+    # load_map('../map/brick.tmap')
+
+
 def create_map(rows = 20, cols = 20):
     global _map
     _map = []
@@ -108,12 +113,13 @@ def create_map(rows = 20, cols = 20):
             row.append(cell)
         _map.append(row)
 
-# 1 Ограничить область карты
+
 def update_map(all=False):
     first_row = get_row(_camera_y)
     last_row = get_row(_camera_y + SCREEN_HEIGHT-1)
     first_col = get_col(_camera_x)
     last_col = get_col(_camera_x + SCREEN_WIDTH-1)
+
     if all:
         first_row = 0
         first_col = 0
@@ -125,59 +131,72 @@ def update_map(all=False):
             update_cell(i, j)
 
 
-# 2 Какие пограничные строки и колонки видит камера
 def get_row(y):
     return int(y)//BLOCK_SIZE
+
 
 def get_col(x):
     return int(x)//BLOCK_SIZE
 
 
-
-
 def get_rows():
     return len(_map)
+
 
 def get_cols():
     return len(_map[0])
 
 
-
-
-
+def get_block(row, col):
+    if _inside_of_map(row, col):
+        return _map[row][col].get_block()
+    return AIR
 
 
 def update_cell(row, col):
-    if inside_of_map(row, col):
+    if _inside_of_map(row, col):
         _map[row][col].update()
+
 
 def destroy(row, col):
     if row < 1 or col < 1 or row >= get_rows()-1 or col >= get_cols()-1:
         return False
     return _map[row][col].destroy()
 
-def inside_of_map(row, col):
+
+def _inside_of_map(row, col) :
     if row < 0 or col < 0 or row >= get_rows() or col >= get_cols():
         return False
     return True
+
 
 def take(row, col):
     if _inside_of_map(row, col):
         return _map[row][col].take()
     return AIR
 
+
 class _Cell:
     def __init__(self, canvas, block,x,y):
         self.__canvas = canvas
         self.__block = block
 
-# 4  получим коородинаты ячейки в видимой области (координаты ячейки на экране камеры)
         self.__screen_x = get_screen_x(x)
         self.__screen_y = get_screen_y(y)
 
         self.__x = x
         self.__y = y
         self.__create_element(block)
+
+
+    def take(self):
+        block = self.get_block()
+        if block == MISSILE:
+            self.set_block(GROUND)
+            return block
+        else:
+            return AIR
+
 
     def set_block(self, block):
         if self.__block == block:
@@ -187,8 +206,10 @@ class _Cell:
         elif self.__block == GROUND:
             self.__create_element(block)
         else:
-            self.itenconfing(self.__id, image=texture.get(block))
+            self.itenconfig(self.__id, image=texture.get(block))
+
         self.__block = block
+
 
     def __create_element(self, block):
         if block != GROUND:
@@ -196,51 +217,36 @@ class _Cell:
                                                    image=texture.get(block),
                                                    anchor=NW)
 
+
     def __delete_element(self):
         try:
             self.__canvas.delete(self.__id)
         except:
             pass
 
+
     def __del__(self):
         self.__delete_element()
 
-    def __del__(self):
-        try:
-            self.__canvas.delete(self.__id)
-        except:
-            pass
 
     def destroy(self):
         if self.get_block() == BRICK:
             self.set_block(GROUND)
             return True
+
         return False
 
     def get_block(self):
         return self.__block
+
 
     def update(self):
         if self.__block == GROUND:
             return
         screen_x = get_screen_x(self.__x)
         screen_y = get_screen_y(self.__y)
-
-    def take(self):
-        block = self.get_block()
-        if block == MISSLE:
-            self.set_block(GROUND)
-            return block
-        else:
-            return AIR
-
- # 6 Если координаты ячейки в видимой области не изменялись, то двигать ячей ку нет смысла
         if self.__screen_x == screen_x and self.__screen_y == screen_y:
             return
-
-
         self.__canvas.moveto(self.__id, x=screen_x, y=screen_y)
-
-# 5 запомнить координаты после каждого обновления
         self.__screen_x = screen_x
         self.__screen_y = screen_y
