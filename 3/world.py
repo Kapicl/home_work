@@ -8,8 +8,16 @@ GROUND = 'g'
 WATER = 'w'
 CONCRETE = 'c'
 BRICK = 'b'
+<<<<<<< HEAD
 
 MISSILE = 'm'
+=======
+#1
+
+MISSLE = 'm'
+
+
+>>>>>>> 10a38aa30eedc7db6a97334b5bafb4d32184a4c9
 
 BLOCK_SIZE = 64
 
@@ -25,6 +33,8 @@ _canvas = None
 _map = []
 
 AIR = 'a'
+# Область функций
+
 
 
 def load_map(file_name):
@@ -42,6 +52,15 @@ def load_map(file_name):
             i+=1
 
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+>>>>>>> 10a38aa30eedc7db6a97334b5bafb4d32184a4c9
 def get_width():
     return get_cols() * BLOCK_SIZE
 
@@ -61,12 +80,15 @@ def set_camera_xy(x, y):
     if y > get_height() - SCREEN_HEIGHT:
         y = get_height() - SCREEN_HEIGHT
 
+
+
     update_all = False
     if abs(_camera_x - x) >= BLOCK_SIZE or abs (_camera_y-y) >= BLOCK_SIZE:
         update_all = True
 
     _camera_x = x
     _camera_y = y
+
 
     if update_all:
         update_map(all=True)
@@ -92,11 +114,18 @@ def initialize(canv):
 
 
     # load_map('../map/1.tmap')
+<<<<<<< HEAD
     load_map('../map/2.tmap')
     #load_map('../map/3.tmap')
     # load_map('../map/brick.tmap')
 
 
+=======
+    # load_map('../map/2.tmap')
+    load_map('../map/3.tmap')
+    # load_map('../map/brick.tmap')
+
+>>>>>>> 10a38aa30eedc7db6a97334b5bafb4d32184a4c9
 def create_map(rows = 20, cols = 20):
     global _map
     _map = []
@@ -129,8 +158,11 @@ def update_map(all=False):
     for i in range(first_row, last_row+1):
         for j in range(first_col, last_col+1):
             update_cell(i, j)
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 10a38aa30eedc7db6a97334b5bafb4d32184a4c9
 def get_row(y):
     return int(y)//BLOCK_SIZE
 
@@ -146,12 +178,18 @@ def get_rows():
 def get_cols():
     return len(_map[0])
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 10a38aa30eedc7db6a97334b5bafb4d32184a4c9
 def get_block(row, col):
     if _inside_of_map(row, col):
         return _map[row][col].get_block()
     return AIR
+<<<<<<< HEAD
 
+=======
+>>>>>>> 10a38aa30eedc7db6a97334b5bafb4d32184a4c9
 
 def update_cell(row, col):
     if _inside_of_map(row, col):
@@ -170,12 +208,21 @@ def _inside_of_map(row, col) :
     return True
 
 
+<<<<<<< HEAD
+=======
+#3
+>>>>>>> 10a38aa30eedc7db6a97334b5bafb4d32184a4c9
 def take(row, col):
     if _inside_of_map(row, col):
         return _map[row][col].take()
     return AIR
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 10a38aa30eedc7db6a97334b5bafb4d32184a4c9
 class _Cell:
     def __init__(self, canvas, block,x,y):
         self.__canvas = canvas
@@ -189,9 +236,18 @@ class _Cell:
         self.__create_element(block)
 
 
+<<<<<<< HEAD
     def take(self):
         block = self.get_block()
         if block == MISSILE:
+=======
+
+
+#2
+    def take(self):
+        block = self.get_block()
+        if block == MISSLE:
+>>>>>>> 10a38aa30eedc7db6a97334b5bafb4d32184a4c9
             self.set_block(GROUND)
             return block
         else:
@@ -201,6 +257,7 @@ class _Cell:
     def set_block(self, block):
         if self.__block == block:
             return
+
         elif block == GROUND:
             self.__delete_element()
         elif self.__block == GROUND:
@@ -218,6 +275,10 @@ class _Cell:
                                                    anchor=NW)
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 10a38aa30eedc7db6a97334b5bafb4d32184a4c9
     def __delete_element(self):
         try:
             self.__canvas.delete(self.__id)

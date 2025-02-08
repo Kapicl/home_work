@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 from tkinter import *
 
 import missiles_collection
+=======
+import missiles_collection
+from tkinter import*
+import world
+>>>>>>> 10a38aa30eedc7db6a97334b5bafb4d32184a4c9
 import tanks_collection
 import texture
 import world
@@ -12,9 +18,17 @@ KEY_S = 83
 KEY_A = 65
 KEY_D = 68
 
+<<<<<<< HEAD
 FPS = 60
 
 
+=======
+
+KEY_SPACE = 32
+
+FPS = 60
+
+>>>>>>> 10a38aa30eedc7db6a97334b5bafb4d32184a4c9
 def update():
     tanks_collection.update()
     missiles_collection.update()
@@ -26,6 +40,7 @@ def update():
 
     w.after(1000//FPS, update)
 
+<<<<<<< HEAD
 
 def key_press(event):
     player = tanks_collection.get_player()
@@ -33,6 +48,12 @@ def key_press(event):
     if player.is_destroyed():
         return
 
+=======
+def key_press(event):
+    player = tanks_collection.get_player()
+    if player.is_destroyed():
+        return
+>>>>>>> 10a38aa30eedc7db6a97334b5bafb4d32184a4c9
     if event.keycode == KEY_W:
         player.forward()
     elif event.keycode == KEY_S:
@@ -67,7 +88,16 @@ def load_textures():
     texture.load(world.BRICK,'../img/brick.png')
     texture.load(world.WATER, '../img/water.png')
     texture.load(world.CONCRETE, '../img/wall.png')
+<<<<<<< HEAD
     texture.load(world.MISSILE, '../img/bonus.png')
+=======
+    texture.load(world.MISSLE, '../img/bonus.png')
+
+    texture.load('missile_up', '../img/missile_up.png')
+    texture.load('missile_down', '../img/missile_down.png')
+    texture.load('missile_left', '../img/missile_left.png')
+    texture.load('missile_right', '../img/missile_right.png')
+>>>>>>> 10a38aa30eedc7db6a97334b5bafb4d32184a4c9
 
     texture.load('missile_up', '../img/missile_up.png')
     texture.load('missile_down', '../img/missile_down.png')
@@ -78,6 +108,25 @@ def load_textures():
 
     texture.load('health_bar', '../img/0.png')  # Красная полоска
     texture.load('health_bar_bg', '../img/25.png')  # Фон полоски здоровья
+
+
+
+# def looad_textures():
+#     texture.load('tankT34_backward', '../img/tankT34_up.png')
+#     texture.load('tankT34_forward', '../img/tankT34_down.png')
+#     texture.load('tankT34_left', '../img/tankT34_left.png')
+#     texture.load('tankT34_right', '../img/tankT34_right.png')
+#
+#     texture.load(world.BRICK, '../img/brick.png')
+#     texture.load(world.WATER, '../img/water.png')
+#     texture.load(world.CONCRETE, '../img/wall.png')
+#
+#     texture.load(world.MISSLE, '../img/bonus.png')
+#
+#     texture.load('tank_right_player', '../img/tank_right_player.png')
+#     texture.load('tank_left_player', '../img/tank_left_player.png')
+#     texture.load('tank_backward_player', '../img/tank_backward_player.png')
+#     texture.load('tank_forward_player', '../img/tank_forward_player.png')
 
 w = Tk()
 load_textures()

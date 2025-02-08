@@ -9,7 +9,12 @@ class Hitbox:
         self.__set_height(height)
 
         #4
+<<<<<<< HEAD
         self.__black_list = [world.CONCRETE, world.BRICK, world.WATER, world.MISSILE]
+=======
+        self.__black_list = [world.CONCRETE, world.BRICK, world.WATER, world.MISSLE]
+
+>>>>>>> 10a38aa30eedc7db6a97334b5bafb4d32184a4c9
 
 
     def __get_corner_points(self):
@@ -34,7 +39,10 @@ class Hitbox:
 
         return collision
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 10a38aa30eedc7db6a97334b5bafb4d32184a4c9
     def __get_width(self):
         return self.__width
 
@@ -110,6 +118,9 @@ class Hitbox:
         if self.bottom < other.top:
             return False
         return True
+
+    def set_blacklist(self, black_list):
+        self.__black_list = black_list
 
 
     def set_blacklist(self, black_list):
